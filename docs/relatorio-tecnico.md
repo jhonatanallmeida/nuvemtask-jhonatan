@@ -7,9 +7,7 @@
 
 ## 1. Visão geral
 
-O NuvemTask é uma aplicação web para organizar projetos e acompanhar tarefas por status. A pessoa usuária cria uma conta, mantém projetos privados e registra tarefas com descrição, prazo e situação. O perfil administrador pode consultar os usuários e os projetos cadastrados. O sistema foi construído como aplicação em camadas: interface React, API REST FastAPI e banco relacional PostgreSQL gerenciado.
-
-O código inclui os recursos de implantação como infraestrutura declarativa e pipeline de integração contínua. A publicação pública ainda depende de enviar o repositório ao GitHub e conectar o Blueprint a uma conta Render; por isso, URLs de produção e evidências de deploy serão acrescentadas após o provisionamento.
+O NuvemTask é uma aplicação web para organizar projetos e acompanhar tarefas por status. A pessoa usuária cria uma conta, mantém projetos privados e registra tarefas com descrição, prazo e situação. O perfil administrador pode consultar os usuários e os projetos cadastrados. O sistema foi construído em camadas: interface React, API REST FastAPI e banco PostgreSQL gerenciado. A aplicação está publicada no Render desde 25/09/2026; o repositório público e as URLs de produção são apresentados na seção de implantação.
 
 ## 2. Arquitetura em nuvem
 
@@ -22,7 +20,7 @@ flowchart LR
   GH -->|checksPass| API
 ```
 
-O front-end e a API são serviços separados. A API não guarda sessão nem dados no filesystem do container; ela valida o token de cada chamada e consulta o banco externo. Esse desenho permite substituir ou ampliar instâncias da API sem mover os registros. O banco é privado e compartilhado pelas instâncias. A configuração atual define uma instância inicial; a escala efetiva depende do plano do provedor.
+O front-end e a API são serviços separados. A API não guarda sessão nem dados no filesystem do container; ela valida o token de cada chamada e consulta o banco externo pela conexão interna do Render. Esse desenho permite substituir ou ampliar instâncias da API sem mover os registros. A configuração define uma instância inicial; a escala efetiva depende do plano do provedor.
 
 O modelo relacional possui três entidades: `User` tem vários `Project`, e cada projeto tem várias `Task`. Chaves estrangeiras ligam os registros e a camada da API verifica o proprietário antes de ler ou alterar um projeto ou tarefa. O perfil `admin` tem acesso de consulta ampliado.
 
@@ -50,7 +48,11 @@ Os testes de API cobrem cadastro, login, consulta de perfil, CRUD de projetos e 
 
 O `render.yaml` descreve a API Docker, o front-end estático e o PostgreSQL. A conexão do banco é fornecida ao serviço da API pelo próprio Render. O segredo JWT é gerado pelo provedor; o e-mail do administrador é solicitado na configuração inicial. O front-end recebe `VITE_API_URL` durante o build e a API permite a origem do site por CORS.
 
-O workflow `.github/workflows/ci.yml` instala dependências, executa `pytest`, executa o teste de interface e gera o build Vite. Os serviços Render usam `autoDeployTrigger: checksPass`: depois de conectar o GitHub e o Render, cada deploy do branch conectado aguarda as verificações. A configuração de provisionamento está no repositório; o deploy público e a demonstração em produção ainda precisam ser realizados na conta do integrante.
+O workflow `.github/workflows/ci.yml` instala dependências, executa `pytest`, executa o teste de interface e gera o build Vite. No commit `c3bae6e`, os testes da API e o build do front-end passaram no GitHub Actions. O Render usa `autoDeployTrigger: checksPass`, então os deploys aguardam as verificações aprovadas.
+
+O Blueprint foi sincronizado com o branch `master` e os três serviços foram provisionados. Repositório: https://github.com/jhonatanallmeida/nuvemtask-jhonatan. Front-end: https://nuvemtask-web.onrender.com. API: https://nuvemtask-api.onrender.com. O endpoint `/healthz` respondeu HTTP 200; a documentação OpenAPI está em https://nuvemtask-api.onrender.com/docs. O PostgreSQL aparece como disponível no plano gratuito, com expiração informada pelo Render para 25/10/2026. Em produção, o cadastro administrativo, a criação de um projeto e três tarefas foram validados; falta cadastrar uma conta comum e conferir o isolamento dos dados entre contas.
+
+O serviço da API usa a URL interna do PostgreSQL. No painel Render, a regra atual de entrada do banco permite conexões de qualquer origem IPv4 (0.0.0.0/0); as conexões continuam exigindo credenciais, mas essa regra deve ser restringida antes de usar dados reais.
 
 ## 6. Papéis e contribuições
 
@@ -65,6 +67,6 @@ O workflow `.github/workflows/ci.yml` instala dependências, executa `pytest`, e
 
 ## 7. Dificuldades e soluções
 
-A proposta pressupõe equipes de quatro a seis pessoas, enquanto esta entrega foi realizada individualmente por Jhonatan Almeida. Para manter rastreabilidade, as responsabilidades foram reunidas em um quadro individual e descritas sem atribuir contribuições inexistentes. Outra decisão foi manter a API stateless e a persistência em serviço separado, para evitar a perda de dados quando um container é recriado. A configuração de nuvem automatiza as conexões e gera o segredo de assinatura, mas a disponibilização pública depende das contas externas e da publicação do repositório.
+A proposta pressupõe equipes de quatro a seis pessoas, enquanto esta entrega foi realizada individualmente por Jhonatan Almeida. Para manter rastreabilidade, as responsabilidades foram reunidas em um quadro individual e descritas sem atribuir contribuições inexistentes. Outra decisão foi manter a API stateless e a persistência em serviço separado, para evitar a perda de dados quando um container é recriado. A configuração de nuvem automatiza as conexões e gera o segredo de assinatura; o plano gratuito limita a disponibilidade e o período de vida do banco.
 
 **Referência técnica:** [Render Blueprint Specification](https://render.com/docs/blueprint-spec), consultada para configurar serviços, banco, variáveis e deploy após verificações.

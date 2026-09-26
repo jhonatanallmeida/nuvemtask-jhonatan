@@ -28,7 +28,7 @@ flowchart LR
   GH -->|checksPass| API
 ```
 
-O back-end é stateless: sessões ficam fora do processo da API e a persistência fica no PostgreSQL gerenciado. Assim, a quantidade de instâncias da API pode ser aumentada sem mover os dados. A capacidade real de escala depende do plano escolhido no provedor.
+O back-end é stateless: sessões ficam fora do processo da API e a persistência fica no PostgreSQL gerenciado. A API usa a conexão interna do Render. No ambiente atual, o painel do banco também permite conexões de entrada de qualquer origem IPv4 (0.0.0.0/0); restrinja essa regra antes de usar dados reais. A capacidade real de escala depende do plano escolhido no provedor.
 
 ## Executar localmente
 
@@ -104,7 +104,7 @@ O GitHub Actions repete essas etapas em pull requests e pushes para `main` ou `m
 6. Registre a conta admin usando o e-mail configurado; registre outra conta para demonstrar a autorização de usuário comum.
 7. Confira `/healthz`, `/docs` e o fluxo completo no front-end. Após conectar o GitHub, os checks do workflow bloqueiam o deploy até o teste e o build passarem.
 
-**Situação de entrega:** código, Dockerfile, workflow e blueprint de implantação estão neste repositório local. URL pública, provisionamento e execução de deploy ainda dependem da publicação do repositório na conta GitHub e da conexão com uma conta Render.
+**Situação da implantação (25/09/2026):** repositório público em https://github.com/jhonatanallmeida/nuvemtask-jhonatan. O front-end está em https://nuvemtask-web.onrender.com; a API está em https://nuvemtask-api.onrender.com, com /healthz respondendo HTTP 200 e documentação em /docs. O PostgreSQL aparece como disponível no Render, no plano gratuito, com expiração informada para 25/10/2026. O CI do commit c3bae6e passou. Em produção, foram validados o cadastro administrativo, a criação de um projeto e a criação de três tarefas; falta cadastrar um usuário comum e conferir o isolamento dos dados entre contas.
 
 ## API — rotas principais
 

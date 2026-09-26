@@ -2,6 +2,7 @@
 
 from io import BytesIO
 from pathlib import Path
+import sys
 
 from PIL import Image, ImageDraw, ImageFont
 from docx import Document
@@ -13,7 +14,7 @@ from docx.shared import Inches, Pt, RGBColor
 
 
 ROOT = Path(__file__).resolve().parents[1]
-OUTPUT = ROOT / "docs" / "relatorio-tecnico.docx"
+OUTPUT = Path(sys.argv[1]) if len(sys.argv) > 1 else ROOT / "docs" / "relatorio-tecnico.docx"
 GREEN = "28694F"
 PALE = "F1F7F2"
 INK = "202722"
@@ -224,7 +225,7 @@ def build():
 
     add_body(
         document,
-        "O NuvemTask organiza projetos e tarefas com autenticação, autorização por perfil e persistência em PostgreSQL gerenciado. Este relatório apresenta a arquitetura, as tecnologias, a estratégia de CI/CD e as contribuições do desenvolvimento individual. O repositório contém a configuração de nuvem; o provisionamento público será concluído após a publicação do código e a conexão da conta Render.",
+        "O NuvemTask organiza projetos e tarefas com autenticação, autorização por perfil e persistência em PostgreSQL gerenciado. Este relatório apresenta a arquitetura, as tecnologias, a estratégia de CI/CD e as contribuições do desenvolvimento individual. A aplicação foi publicada no Render em 25/09/2026; o repositório e as URLs de produção estão registrados na seção de implantação.",
     )
 
     add_heading(document, "1. Visão geral do sistema")
@@ -285,7 +286,15 @@ def build():
     )
     add_body(
         document,
-        "O workflow `.github/workflows/ci.yml` roda em pull requests e pushes para `main` ou `master`: instala dependências, executa testes de API, executa o teste de interface e compila o front-end. Com GitHub e Render conectados, `autoDeployTrigger: checksPass` libera os serviços para deploy após as verificações passarem. A URL pública e a evidência de deploy serão incluídas depois da publicação do repositório.",
+        "O workflow `.github/workflows/ci.yml` roda em pull requests e pushes para `main` ou `master`: instala dependências, executa testes de API, executa o teste de interface e compila o front-end. No commit `c3bae6e`, os testes da API e o build do front-end passaram no GitHub Actions. O Render usa `autoDeployTrigger: checksPass`, então os deploys aguardam as verificações aprovadas.",
+    )
+    add_body(
+        document,
+        "O Blueprint foi sincronizado com o branch `master` e os três serviços foram provisionados. Repositório: https://github.com/jhonatanallmeida/nuvemtask-jhonatan. Front-end: https://nuvemtask-web.onrender.com. API: https://nuvemtask-api.onrender.com. O endpoint `/healthz` respondeu HTTP 200 e a documentação OpenAPI está em https://nuvemtask-api.onrender.com/docs. O PostgreSQL aparece como disponível no plano gratuito, com expiração informada para 25/10/2026. Em produção, o cadastro administrativo, a criação de um projeto e três tarefas foram validados; falta cadastrar uma conta comum e conferir o isolamento dos dados entre contas.",
+    )
+    add_body(
+        document,
+        "A API usa a URL interna do PostgreSQL. No painel Render, a regra atual de entrada do banco permite conexões de qualquer origem IPv4 (0.0.0.0/0); as conexões continuam exigindo credenciais, mas essa regra deve ser restringida antes de usar dados reais.",
     )
 
     add_heading(document, "6. Papéis e contribuições")
@@ -297,7 +306,7 @@ def build():
             ["Desenvolvedor(a) back-end", "Autenticação, API, regras, validação e logs."],
             ["Desenvolvedor(a) front-end", "Painel React, formulários e integração com a API."],
             ["Engenheiro(a) DevOps", "Docker, Compose, CI e blueprint de deploy."],
-            ["Qualidade e documentação", "Testes automatizados, README, relatório e vídeo."],
+            ["Qualidade e documentação", "Testes automatizados, README, relatório e roteiro da demonstração."],
         ],
         [2.10, 4.70],
         font_size=8.1,
@@ -306,7 +315,7 @@ def build():
     add_heading(document, "7. Dificuldades e soluções")
     add_body(
         document,
-        "A proposta prevê equipes de quatro a seis integrantes; esta entrega foi realizada individualmente por Jhonatan Almeida. Os papéis foram acumulados e registrados sem atribuir contribuições a outras pessoas. Para evitar dependência do disco efêmero do container, a persistência foi direcionada a um PostgreSQL gerenciado. Segredos e endereços ficam em variáveis de ambiente; o blueprint automatiza sua ligação sem gravar credenciais no repositório.",
+        "A proposta prevê equipes de quatro a seis integrantes; esta entrega foi realizada individualmente por Jhonatan Almeida. Os papéis foram acumulados e registrados sem atribuir contribuições a outras pessoas. Para evitar dependência do disco efêmero do container, a persistência foi direcionada a um PostgreSQL gerenciado. Segredos e endereços ficam em variáveis de ambiente; o blueprint automatiza sua ligação sem gravar credenciais no repositório. O plano gratuito limita a disponibilidade e o período de vida do banco.",
     )
 
     ref = document.add_paragraph()
