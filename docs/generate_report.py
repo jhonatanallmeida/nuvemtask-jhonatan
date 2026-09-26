@@ -220,7 +220,7 @@ def build():
     set_run_font(meta.add_run("ADS / IA (EAD) · Unifor"), size=9.3, bold=True, color=INK)
     meta = document.add_paragraph()
     meta.paragraph_format.space_after = Pt(8)
-    set_run_font(meta.add_run("Integrante: [preencher nome]    |    Setembro de 2026"), size=8.5, color=MUTED)
+    set_run_font(meta.add_run("Integrante: Jhonatan Almeida    |    Setembro de 2026"), size=8.5, color=MUTED)
 
     add_body(
         document,
@@ -306,7 +306,7 @@ def build():
     add_heading(document, "7. Dificuldades e soluções")
     add_body(
         document,
-        "A proposta prevê equipes de quatro a seis integrantes; esta entrega foi realizada por uma pessoa. Os papéis foram acumulados e registrados individualmente, sem atribuir contribuições a outras pessoas. Para evitar dependência do disco efêmero do container, a persistência foi direcionada a um PostgreSQL gerenciado. Segredos e endereços ficam em variáveis de ambiente; o blueprint automatiza sua ligação sem gravar credenciais no repositório.",
+        "A proposta prevê equipes de quatro a seis integrantes; esta entrega foi realizada individualmente por Jhonatan Almeida. Os papéis foram acumulados e registrados sem atribuir contribuições a outras pessoas. Para evitar dependência do disco efêmero do container, a persistência foi direcionada a um PostgreSQL gerenciado. Segredos e endereços ficam em variáveis de ambiente; o blueprint automatiza sua ligação sem gravar credenciais no repositório.",
     )
 
     ref = document.add_paragraph()

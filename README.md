@@ -2,7 +2,7 @@
 
 Aplicação web para organizar projetos e tarefas em um único espaço. O NuvemTask permite criar uma conta, manter projetos privados, acompanhar o estado de cada tarefa e consultar o progresso do projeto.
 
-> **Trabalho individual:** a proposta da disciplina descreve equipes de 4 a 6 pessoas. Este projeto foi desenvolvido por uma única integrante, que acumulou os papéis de arquitetura, back-end, front-end, DevOps, testes e documentação. O relatório identifica essa contribuição individual sem atribuir trabalho a outras pessoas.
+> **Trabalho individual:** a proposta da disciplina descreve equipes de 4 a 6 pessoas. Este projeto foi desenvolvido individualmente por Jhonatan Almeida, que acumulou os papéis de arquitetura, back-end, front-end, DevOps, testes e documentação. O relatório identifica essa contribuição individual sem atribuir trabalho a outras pessoas.
 
 ## Funcionalidades
 

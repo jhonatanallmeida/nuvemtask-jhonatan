@@ -2,7 +2,7 @@
 
 **Curso:** Análise e Desenvolvimento de Sistemas / IA (EAD — Unifor)  
 **Atividade:** Desenvolvimento de Software em Nuvem  
-**Integrante único:** [preencher nome]  
+**Integrante:** Jhonatan Almeida  
 **Data:** setembro de 2026
 
 ## 1. Visão geral
@@ -65,6 +65,6 @@ O workflow `.github/workflows/ci.yml` instala dependências, executa `pytest`, e
 
 ## 7. Dificuldades e soluções
 
-A proposta pressupõe equipes de quatro a seis pessoas, enquanto esta entrega tem uma única integrante. Para manter rastreabilidade, as responsabilidades foram reunidas em um quadro individual e descritas sem atribuir contribuições inexistentes. Outra decisão foi manter a API stateless e a persistência em serviço separado, para evitar a perda de dados quando um container é recriado. A configuração de nuvem automatiza as conexões e gera o segredo de assinatura, mas a disponibilização pública depende das contas externas e da publicação do repositório.
+A proposta pressupõe equipes de quatro a seis pessoas, enquanto esta entrega foi realizada individualmente por Jhonatan Almeida. Para manter rastreabilidade, as responsabilidades foram reunidas em um quadro individual e descritas sem atribuir contribuições inexistentes. Outra decisão foi manter a API stateless e a persistência em serviço separado, para evitar a perda de dados quando um container é recriado. A configuração de nuvem automatiza as conexões e gera o segredo de assinatura, mas a disponibilização pública depende das contas externas e da publicação do repositório.
 
 **Referência técnica:** [Render Blueprint Specification](https://render.com/docs/blueprint-spec), consultada para configurar serviços, banco, variáveis e deploy após verificações.

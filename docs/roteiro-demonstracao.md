@@ -25,7 +25,7 @@
 
 ## Checklist antes de gravar
 
-- [ ] Substituir `[preencher nome]` no relatório.
+- [x] Identificar Jhonatan Almeida como autor individual no relatório.
 - [ ] Publicar o repositório como público e confirmar que não há arquivos `.env` ou segredos.
 - [ ] Provisionar Render e registrar as URLs do site, da API e do Swagger.
 - [ ] Criar a conta admin depois de definir `ADMIN_EMAIL`.
